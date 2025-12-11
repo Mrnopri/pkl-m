@@ -45,4 +45,8 @@
         Belum mempunyai akun? <a href="{{ route('register') }}"
             class="font-medium text-red-600 hover:underline">Register</a>
     </p>
+
+    <p class="text-center text-sm text-gray-500 mt-2">
+        <a href="{{ route('password.request') }}" class="font-medium text-red-600 hover:underline">Lupa Password?</a>
+    </p>
 </x-guest-layout>

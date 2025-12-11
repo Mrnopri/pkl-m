@@ -19,12 +19,19 @@ class PklRegistrationController extends Controller
 
     public function create()
     {
+        // Check if user already has an approved application
+        $application = PklApplication::where('user_id', Auth::id())->first();
+
+        if ($application && $application->status === 'approved') {
+            return redirect()->route('status.index')->with('error', 'Anda sudah diterima sebagai peserta PKL. Anda tidak dapat mendaftar lagi.');
+        }
+
         return view('dashboard.pendaftaran');
     }
 
     public function status()
     {
-        $application = PklApplication::where('user_id', Auth::id())->first();
+        $application = PklApplication::with('unit')->where('user_id', Auth::id())->first();
         return view('dashboard.status', compact('application'));
     }
 
@@ -35,6 +42,13 @@ class PklRegistrationController extends Controller
 
     public function store(Request $request)
     {
+        // Check if user already has an application
+        $existingApplication = PklApplication::where('user_id', Auth::id())->first();
+
+        if ($existingApplication && $existingApplication->status === 'approved') {
+            return redirect()->route('status.index')->with('error', 'Anda sudah diterima sebagai peserta PKL. Anda tidak dapat mendaftar lagi.');
+        }
+
         $request->validate([
             'education_level' => 'required|string',
             'institution_name' => 'required|string',

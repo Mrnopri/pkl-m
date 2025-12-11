@@ -17,6 +17,7 @@
         function updateRegistrationStatusPage() {
             // Determine status from Blade variable
             const applicationStatus = @json($application ? $application->status : null);
+            const unitName = @json($application && $application->unit ? $application->unit->name : null);
             const userStatus = applicationStatus ? applicationStatus : 'kosong';
 
             let contentHTML = '';
@@ -32,13 +33,15 @@
                     title: 'Selamat, Pendaftaran Anda Diterima!',
                     color: 'green',
                     icon: `<svg class="w-16 h-16 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`,
-                    message: 'Anda telah diterima untuk program PKL di PT. Telkom Indonesia Witel Lampung. Anda ditempatkan pada unit **Digital Service**. Surat tugas resmi dan informasi lebih lanjut akan dikirimkan ke email Anda.'
+                    message: unitName
+                        ? `Anda telah diterima untuk program PKL di PT. Telkom Indonesia Witel Lampung. Anda ditempatkan pada unit **${unitName}**. Surat tugas resmi dan informasi lebih lanjut akan dikirimkan ke email Anda.`
+                        : 'Anda telah diterima untuk program PKL di PT. Telkom Indonesia Witel Lampung. Surat tugas resmi dan informasi lebih lanjut akan dikirimkan ke email Anda.'
                 },
                 rejected: {
                     title: 'Mohon Maaf, Pendaftaran Ditolak',
                     color: 'red',
                     icon: `<svg class="w-16 h-16 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`,
-                    message: 'Setelah melakukan peninjauan, kami belum dapat menerima pengajuan Anda saat ini. Alasan: **Berkas tidak lengkap**. Silakan perbaiki dan ajukan kembali pendaftaran Anda.'
+                    message: 'Setelah melakukan peninjauan, kami belum dapat menerima pengajuan Anda saat ini.'
                 },
                 kosong: {
                     title: 'Anda Belum Melakukan Pendaftaran',
@@ -50,13 +53,13 @@
 
             const s = statusMap[userStatus] || statusMap['kosong'];
             contentHTML = `
-                    <div class="text-center">
-                        <div class="flex justify-center mb-4">${s.icon}</div>
-                        <h2 class="text-2xl font-bold text-gray-800 mb-2">${s.title}</h2>
-                        <p class="text-gray-600 max-w-lg mx-auto">${s.message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
-                        ${userStatus === 'kosong' || userStatus === 'rejected' ? `<a href="{{ route('pendaftaran.create') }}" class="mt-6 inline-block px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">Buka Formulir Pendaftaran</a>` : ''}
-                    </div>
-                `;
+                            <div class="text-center">
+                                <div class="flex justify-center mb-4">${s.icon}</div>
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">${s.title}</h2>
+                                <p class="text-gray-600 max-w-lg mx-auto">${s.message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+                                ${userStatus === 'kosong' || userStatus === 'rejected' ? `<a href="{{ route('pendaftaran.create') }}" class="mt-6 inline-block px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">Buka Formulir Pendaftaran</a>` : ''}
+                            </div>
+                        `;
             statusPageContent.innerHTML = contentHTML;
         }
 
