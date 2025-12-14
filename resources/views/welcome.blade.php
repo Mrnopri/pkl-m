@@ -63,8 +63,9 @@
                                         </x-dropdown-link>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
-                                                                                        this.closest('form').submit();">
+                                            <x-dropdown-link :href="route('logout')"
+                                                onclick="event.preventDefault();
+                                                                                                    this.closest('form').submit();">
                                                 {{ __('Keluar') }}
                                             </x-dropdown-link>
                                         </form>
@@ -103,7 +104,7 @@
                                 perusahaan telekomunikasi digital terbesar Indonesia.
                             </p>
                             <div>
-                                <a href="{{ route('register') }}"
+                                <a href="{{ route('login') }}"
                                     class="inline-block bg-red-600 text-white px-6 py-3 rounded-md font-medium hover:bg-red-700 transition">
                                     Daftar Sekarang
                                 </a>

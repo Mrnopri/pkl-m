@@ -23,6 +23,20 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('/units', App\Http\Controllers\UnitController::class);
     Route::resource('users', App\Http\Controllers\UserController::class);
     Route::resource('supervisors', App\Http\Controllers\SupervisorController::class);
+
+    // Letter Template Management
+    Route::resource('letter-templates', App\Http\Controllers\LetterTemplateController::class);
+    Route::get('letter-templates/{id}/preview', [App\Http\Controllers\LetterTemplateController::class, 'preview'])
+        ->name('letter-templates.preview');
+    Route::get('letter-templates/{id}/data', [App\Http\Controllers\LetterTemplateController::class, 'getData'])
+        ->name('letter-templates.data');
+
+    // Letter Management
+    Route::resource('letters', App\Http\Controllers\LetterController::class);
+    Route::get('letters/{id}/download', [App\Http\Controllers\LetterController::class, 'download'])
+        ->name('letters.download');
+    Route::get('api/approved-students', [App\Http\Controllers\LetterController::class, 'getApprovedStudents'])
+        ->name('api.approved-students');
 });
 
 Route::middleware('auth')->group(function () {
