@@ -154,7 +154,15 @@
             <!-- Header -->
             <header id="main-header"
                 class="h-16 flex items-center justify-between px-6 bg-white border-b border-slate-200">
-                <div>
+                <div class="flex items-center gap-4">
+                    <!-- Hamburger Button (Mobile Only) -->
+                    <button id="mobile-menu-button"
+                        class="md:hidden text-slate-600 hover:text-slate-800 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
                     <h1 class="text-xl font-bold text-slate-800">@yield('header', 'Dasbor')</h1>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -190,6 +198,36 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const sidebar = document.querySelector('aside');
+
+        if (mobileMenuButton && sidebar) {
+            mobileMenuButton.addEventListener('click', function () {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('fixed');
+                sidebar.classList.toggle('inset-0');
+                sidebar.classList.toggle('z-50');
+                sidebar.classList.toggle('md:relative');
+                sidebar.classList.toggle('md:translate-x-0');
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function (event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnButton = mobileMenuButton.contains(event.target);
+
+                if (!isClickInsideSidebar && !isClickOnButton && window.innerWidth < 768) {
+                    if (!sidebar.classList.contains('hidden')) {
+                        sidebar.classList.add('hidden');
+                        sidebar.classList.remove('fixed', 'inset-0', 'z-50');
+                    }
+                }
+            });
+        }
+    </script>
 
     @stack('scripts')
 </body>
