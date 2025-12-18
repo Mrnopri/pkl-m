@@ -10,7 +10,7 @@ class UnitController extends Controller
 {
     public function index()
     {
-        $units = Unit::all();
+        $units = Unit::latest()->paginate(10);
         return view('admin.units', compact('units'));
     }
 

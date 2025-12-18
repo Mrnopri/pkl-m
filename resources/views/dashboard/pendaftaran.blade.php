@@ -76,7 +76,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Unggah Berkas
                             Persyaratan</label>
-                        <p class="text-xs text-gray-500 mb-2">Unggah semua berkas yang diperlukan (misal: Surat
+                        <p class="text-xs text-gray-500 mb-2">Unggah semua berkas yang diperlukan dalam 1 file PDF (Surat
                             Permohonan, CV, Transkrip/Rapor).</p>
                         <div id="drop-zone"
                             class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">

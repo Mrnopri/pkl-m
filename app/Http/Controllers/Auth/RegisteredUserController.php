@@ -73,6 +73,9 @@ class RegisteredUserController extends Controller
             return redirect()->route('register')->with('error', 'Silakan daftar terlebih dahulu.');
         }
 
+        // Keep email in session for subsequent requests
+        session()->reflash();
+
         return view('auth.verify-otp');
     }
 
@@ -146,6 +149,9 @@ class RegisteredUserController extends Controller
         // Send new OTP
         $user->notify(new OtpVerificationNotification($otpCode));
 
-        return back()->with('status', 'Kode OTP baru telah dikirim ke email Anda.');
+        return back()->with([
+            'email' => $user->email,
+            'status' => 'Kode OTP baru telah dikirim ke email Anda.'
+        ]);
     }
 }

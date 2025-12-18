@@ -61,6 +61,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="p-4">
+            {{ $supervisors->links() }}
+        </div>
     </div>
 
     <!-- Add Supervisor Modal -->

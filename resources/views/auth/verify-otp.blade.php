@@ -47,11 +47,13 @@
         <p class="text-sm text-gray-500">
             Tidak menerima kode?
         </p>
-        <form method="POST" action="{{ route('otp.resend') }}" class="inline">
+        <form method="POST" action="{{ route('otp.resend') }}" class="inline" id="resendForm">
             @csrf
             <input type="hidden" name="email" value="{{ session('email') }}">
-            <button type="submit" class="text-sm font-medium text-red-600 hover:underline">
-                Kirim Ulang OTP
+            <button type="submit" id="resendBtn"
+                class="text-sm font-medium text-red-600 hover:underline disabled:text-gray-400 disabled:cursor-not-allowed disabled:no-underline">
+                <span id="resendText">Kirim Ulang OTP</span>
+                <span id="countdown" class="hidden"></span>
             </button>
         </form>
     </div>
@@ -59,4 +61,36 @@
     <p class="text-center text-sm text-gray-500 mt-6">
         <a href="{{ route('login') }}" class="font-medium text-red-600 hover:underline">Kembali ke Login</a>
     </p>
+
+    <script>
+        let timeLeft = 60;
+        const resendBtn = document.getElementById('resendBtn');
+        const resendText = document.getElementById('resendText');
+        const countdown = document.getElementById('countdown');
+        const resendForm = document.getElementById('resendForm');
+
+        function updateTimer() {
+            if (timeLeft > 0) {
+                resendBtn.disabled = true;
+                resendText.classList.add('hidden');
+                countdown.classList.remove('hidden');
+                countdown.textContent = `Tunggu ${timeLeft} detik`;
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                resendBtn.disabled = false;
+                resendText.classList.remove('hidden');
+                countdown.classList.add('hidden');
+            }
+        }
+
+        // Start timer when page loads
+        updateTimer();
+
+        // Reset timer when form is submitted
+        resendForm.addEventListener('submit', function () {
+            timeLeft = 60;
+            setTimeout(updateTimer, 1000);
+        });
+    </script>
 </x-guest-layout>

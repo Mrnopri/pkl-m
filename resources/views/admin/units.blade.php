@@ -82,6 +82,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="p-4">
+            {{ $units->links() }}
+        </div>
     </div>
 
     <!-- Modal Tambah/Edit Unit -->

@@ -9,7 +9,7 @@ class SupervisorController extends Controller
 {
     public function index()
     {
-        $supervisors = Supervisor::latest()->get();
+        $supervisors = Supervisor::latest()->paginate(10);
         return view('admin.supervisors', compact('supervisors'));
     }
 
